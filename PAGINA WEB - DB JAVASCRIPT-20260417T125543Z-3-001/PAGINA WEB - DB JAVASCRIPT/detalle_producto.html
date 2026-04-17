@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Producto | EcoMarket</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+          rel="stylesheet" 
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" href="index.html">EcoMarket</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+                    </ul>
+                    <button class="btn btn-outline-success ms-3" type="button" id="btn-carrito">
+                        🛒 Carrito (<span id="contador-carrito">0</span>)
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container my-5">
+        <div class="row bg-white p-4 rounded shadow-lg">
+            <div class="col-md-6 mb-4">
+                <img src="img/placeholder.jpg" class="img-fluid rounded producto-detalle-img" alt="Producto Detalle" id="detalle-imagen">
+            </div>
+            
+            <div class="col-md-6">
+                <h1 class="display-5 fw-bold text-success" id="detalle-nombre">Cargando Producto...</h1>
+                <p class="lead text-muted" id="detalle-descripcion">...descripción del producto...</p>
+                
+                <p class="fs-2 text-dark fw-bold" id="detalle-precio">$0.00 <span class="fs-5 text-success">/ unidad</span></p>
+
+                <hr>
+
+                <div class="d-flex align-items-center mb-4 p-3 bg-light rounded">
+                    <label for="cantidad-input" class="me-3 fw-bold text-dark">Cantidad:</label>
+                    
+                    <input type="number" class="form-control me-3" id="cantidad-input" value="1" min="1" style="width: 100px;">
+                    
+                    <button id="btn-anadir-detalle" class="btn btn-success btn-lg flex-grow-1 shadow-sm">
+                        🛒 Añadir al Carrito
+                    </button>
+                </div>
+
+                <div id="mensaje-carrito-agregado" class="alert alert-success d-none" role="alert">
+                    ✅ ¡Producto añadido al carrito con éxito!
+                </div>
+                
+                <hr>
+
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="nutricion-tab" data-bs-toggle="tab" data-bs-target="#nutricion" type="button" role="tab" aria-controls="nutricion" aria-selected="true">Información</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="envio-tab" data-bs-toggle="tab" data-bs-target="#envio" type="button" role="tab" aria-controls="envio" aria-selected="false">Envío y Recogida</button>
+                    </li>
+                </ul>
+                <div class="tab-content p-3 border border-top-0 bg-light rounded-bottom" id="myTabContent">
+                    <div class="tab-pane fade show active" id="nutricion" role="tabpanel" aria-labelledby="nutricion-tab">
+                        <div id="detalle-tab-nutricion">
+                            <p>Cargando información...</p>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="envio" role="tabpanel" aria-labelledby="envio-tab">
+                        <p>📦 **Envío a Domicilio:** Disponible a todo el país. Costo ($5.00) calculado al finalizar la compra.</p>
+                        <p>📍 **Recogida en Sede:** Pídelo ahora y recógelo en 2 horas en la sede más cercana (gratis).</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container">
+            <div class="text-center text-white-50">
+                &copy; 2024 EcoMarket.
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+            crossorigin="anonymous">
+    </script>
+
+    <script src="database.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>

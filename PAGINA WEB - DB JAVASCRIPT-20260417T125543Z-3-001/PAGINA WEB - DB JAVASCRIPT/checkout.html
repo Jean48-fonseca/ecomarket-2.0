@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | EcoMarket</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos del checkout que no están en style.css global */
+        .form-check-label { display: flex; align-items: center; padding: 1rem; border: 1px solid #dee2e6; border-radius: 0.5rem; transition: all 0.2s ease-in-out; cursor: pointer; }
+        .form-check-input:checked + .form-check-label { border-color: #198754; background-color: #e9f5ee; box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.25); }
+        .form-check-input { display: none; }
+        .form-check-label .icon { font-size: 1.5rem; margin-right: 0.75rem; color: #198754; }
+        .info-confirmada { background-color: #e9f5ee; border-left: 4px solid #198754; padding: 0.75rem; margin-top: 0.5rem; border-radius: 0.25rem; }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" href="index.html">EcoMarket</a>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="productos.html">Tienda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="carrito.html">Carrito <span id="contador-carrito" class="badge bg-success">0</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container my-5 flex-grow-1">
+        <h1 class="display-5 fw-bold text-center mb-5 text-success">Finalizar Compra</h1>
+
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <div class="stepper-progress mb-5">
+                    <div class="step-item active" data-step="1">
+                        <div class="step-icon">1</div>
+                        <div class="step-label">Información</div>
+                    </div>
+                    <div class="step-item" data-step="2">
+                        <div class="step-icon">2</div>
+                        <div class="step-label">Entrega</div>
+                    </div>
+                    <div class="step-item" data-step="3">
+                        <div class="step-icon">3</div>
+                        <div class="step-label">Pago</div>
+                    </div>
+                </div>
+
+                <form id="form-checkout" novalidate>
+                    
+                    <div id="paso-informacion" class="paso-checkout p-4 shadow-sm mb-4 bg-white card-custom">
+                        <h2 class="h4 mb-4 text-success border-bottom pb-2">1. Información del Cliente</h2>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" required pattern="[A-Za-zÀ-ÿ\s]+">
+                                <div class="invalid-feedback">Solo se permiten letras.</div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="apellido" class="form-label">Apellido</label>
+                                <input type="text" class="form-control" id="apellido" required pattern="[A-Za-zÀ-ÿ\s]+">
+                                <div class="invalid-feedback">Solo se permiten letras.</div>
+                            </div>
+                            <div class="col-12">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="tu@ejemplo.com" required>
+                                <div class="invalid-feedback">Introduce un email válido.</div>
+                            </div>
+                            <div class="col-12">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefono" placeholder="XXX XXX XXX" required maxlength="11">
+                                <div class="invalid-feedback">Introduce un teléfono de 9 dígitos.</div>
+                            </div>
+                            <button type="button" class="btn btn-success mt-3" id="btn-continuar-entrega">Continuar a Entrega</button>
+                        </div>
+                    </div>
+
+                    <div id="paso-entrega" class="paso-checkout p-4 shadow-sm mb-4 bg-white card-custom disabled">
+                        <h2 class="h4 mb-4 text-success border-bottom pb-2">2. Método de Entrega</h2>
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="tipo-entrega" id="entrega-domicilio" value="domicilio">
+                            <label class="form-check-label" for="entrega-domicilio">
+                                <i class="bi bi-truck icon"></i>
+                                <div>
+                                    <span class="fw-bold d-block">Envío a Domicilio</span>
+                                    <small class="text-muted">Recibe tu pedido en la puerta de tu casa.</small>
+                                </div>
+                            </label>
+                            <div id="info-domicilio-confirmada" class="info-confirmada d-none"></div>
+                        </div>
+
+                        <div id="contenedor-direccion" class="d-none mt-2 p-3 border rounded bg-light">
+                            <h5 class="h6 text-dark mb-3">Completa tu dirección de envío</h5>
+                            <div class="row g-3">
+                                <div class="col-12"><input type="text" class="form-control" id="direccion" placeholder="Dirección Completa (Ej: Av. Principal 123)" required></div>
+                                <div class="col-md-6"><input type="text" class="form-control" id="distrito" placeholder="Distrito" required></div>
+                                <div class="col-md-6"><input type="text" class="form-control" id="codigo-postal" placeholder="Código Postal" required></div>
+                                <div class="col-12"><button type="button" class="btn btn-outline-success w-100" id="btn-confirmar-direccion">Confirmar Dirección</button></div>
+                            </div>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tipo-entrega" id="entrega-sede" value="recoger-sede">
+                            <label class="form-check-label" for="entrega-sede">
+                                <i class="bi bi-shop icon"></i>
+                                <div>
+                                    <span class="fw-bold d-block">Recoger en Tienda</span>
+                                    <small class="text-muted">Gratis. Elige tu sede más cercana.</small>
+                                </div>
+                            </label>
+                            <div id="info-sede-confirmada" class="info-confirmada d-none"></div>
+                        </div>
+
+                        <div id="contenedor-sede" class="d-none mt-2 p-3 border rounded bg-light">
+                            <label for="select-sede" class="form-label">Selecciona una sede para recoger tu pedido:</label>
+                            <select class="form-select" id="select-sede" required><option value="" disabled selected>Elige una sede...</option></select>
+                        </div>
+                        <button type="button" class="btn btn-success mt-3" id="btn-continuar-pago">Continuar a Pago</button>
+                    </div>
+
+                    <div id="paso-pago" class="paso-checkout p-4 shadow-sm mb-4 bg-white card-custom disabled">
+                        <h2 class="h4 mb-4 text-success border-bottom pb-2">3. Método de Pago</h2>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="metodo-pago" id="pago-tarjeta" value="tarjeta">
+                            <label class="form-check-label" for="pago-tarjeta">
+                                <i class="bi bi-credit-card-2-front icon"></i>
+                                <div><span class="fw-bold d-block">Tarjeta de Crédito / Débito</span></div>
+                            </label>
+                            <div id="info-tarjeta-confirmada" class="info-confirmada d-none"></div>
+                        </div>
+
+                        <div id="contenedor-pago-tarjeta" class="d-none">
+                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modal-tarjeta">
+                                <i class="bi bi-pencil-square"></i> Ingresar Datos de Tarjeta
+                            </button>
+                        </div>
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="metodo-pago" id="pago-efectivo" value="efectivo" disabled>
+                            <label class="form-check-label" for="pago-efectivo">
+                                <i class="bi bi-cash-coin icon"></i>
+                                <div>
+                                    <span class="fw-bold d-block">Efectivo</span>
+                                    <small class="text-muted">Solo disponible para recojo en tienda.</small>
+                                </div>
+                            </label>
+                        </div>
+                        <button class="w-100 btn btn-success btn-lg mt-4" type="submit"><i class="bi bi-check-circle-fill"></i> Finalizar Pedido</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="p-4 shadow-sm bg-white card-custom sticky-top" style="top: 20px;">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-success">Tu Resumen</span>
+                        <span id="checkout-total-items" class="badge bg-success rounded-pill">0</span>
+                    </h4>
+                    
+                    <ul class="list-group mb-3" id="contenedor-resumen-productos"></ul>
+
+                    <ul class="list-group" id="resumen-checkout-total">
+                        <li class="list-group-item d-flex justify-content-between"><span>Subtotal</span><strong id="resumen-subtotal">S/0.00</strong></li>
+                        <li class="list-group-item d-flex justify-content-between"><span>Envío</span><strong id="resumen-envio">S/0.00</strong></li>
+                        <li class="list-group-item d-flex justify-content-between bg-light">
+                            <span class="fw-bold text-success">Total</span>
+                            <strong id="resumen-total" class="fw-bold text-success fs-5">S/0.00</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div class="modal fade" id="modal-tarjeta" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Ingresar Datos de Tarjeta</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-tarjeta" novalidate>
+                        <div class="mb-3">
+                            <label for="numero-tarjeta" class="form-label">Número de Tarjeta</label>
+                            <input type="text" class="form-control" id="numero-tarjeta" placeholder="XXXX XXXX XXXX XXXX" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nombre-tarjeta" class="form-label">Titular de la Tarjeta</label>
+                            <input type="text" class="form-control" id="nombre-tarjeta" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="expiracion-tarjeta" class="form-label">Vencimiento</label>
+                                <input type="text" class="form-control" id="expiracion-tarjeta" placeholder="MM/AA" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="cvv-tarjeta" class="form-label">CVV</label>
+                                <input type="text" class="form-control" id="cvv-tarjeta" placeholder="123" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-block border-0">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success float-end" id="guardar-tarjeta">Confirmar Tarjeta</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container text-center text-white-50">&copy; 2024 EcoMarket.</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="database.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>

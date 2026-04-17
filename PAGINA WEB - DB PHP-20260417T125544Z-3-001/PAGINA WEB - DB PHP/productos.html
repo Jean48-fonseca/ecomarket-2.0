@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda | Todos los Productos Orgánicos | EcoMarket</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+          rel="stylesheet" 
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" href="index.html">EcoMarket</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="productos.html">Productos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+                    </ul>
+                    <button class="btn btn-outline-success ms-3" type="button" id="btn-carrito">
+                        🛒 Carrito (<span id="contador-carrito">0</span>)
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container my-5">
+        <h1 class="display-4 fw-bold text-center mb-5 text-success">Nuestro Catálogo Orgánico</h1>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="bg-white p-4 rounded shadow-lg sticky-top" style="top: 80px;">
+                    <h4 class="mb-3 text-success">Filtros Rápidos</h4>
+
+                    <div class="mb-3">
+                        <label for="busqueda-general" class="form-label fw-bold">Buscar:</label>
+                        <input type="text" class="form-control" id="busqueda-general" placeholder="Buscar por nombre o descripción">
+                    </div>
+
+                    <h6 class="mt-4 border-top pt-3 fw-bold">Categorías</h6>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check filtro-categoria" type="checkbox" value="Frutas" id="filtro-frutas">
+                        <label class="form-check-label" for="filtro-frutas">Frutas</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check filtro-categoria" type="checkbox" value="Verduras" id="filtro-verduras">
+                        <label class="form-check-label" for="filtro-verduras">Verduras</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check filtro-categoria" type="checkbox" value="Panadería" id="filtro-panaderia">
+                        <label class="form-check-label" for="filtro-panaderia">Panadería</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check filtro-categoria" type="checkbox" value="Lácteos y Bebidas" id="filtro-lacteos">
+                        <label class="form-check-label" for="filtro-lacteos">Lácteos y Bebidas</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check filtro-categoria" type="checkbox" value="Granos y Legumbres" id="filtro-granos">
+                        <label class="form-check-label" for="filtro-granos">Granos y Legumbres</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input filtro-check filtro-categoria" type="checkbox" value="Despensa" id="filtro-despensa">
+                        <label class="form-check-label" for="filtro-despensa">Despensa</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input filtro-check filtro-categoria" type="checkbox" value="Snacks" id="filtro-snacks">
+                        <label class="form-check-label" for="filtro-snacks">Snacks</label>
+                    </div>
+
+                    <button id="btn-aplicar-filtros" class="btn btn-sm btn-success w-100 mt-4">Aplicar Filtros</button>
+                    <button id="btn-limpiar-filtros" class="btn btn-sm btn-outline-secondary w-100 mt-2">Limpiar Filtros</button>
+                </div>
+            </div>
+            
+            <div class="col-md-9">
+                <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm">
+                    <p class="mb-0 text-muted" id="conteo-productos">Cargando productos...</p>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4" id="productos-container">
+                    </div>
+
+                <div id="no-resultados" class="alert alert-warning text-center mt-5 d-none">
+                    No se encontraron productos con los filtros seleccionados. Intenta con una búsqueda diferente.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container">
+            <div class="text-center text-white-50">
+                &copy; 2024 EcoMarket.
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+            crossorigin="anonymous">
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
